@@ -236,4 +236,92 @@
                 if (mediaDevice.kind === 'videoinput') {
                     if(window.unityFacingMode == 'environment' && !mediaDevice.label.includes('facing front')) {
                         camDevices.push(mediaDevice);
-                    } else if(window.unityFacingMode == 'user' && media
+                    } else if(window.unityFacingMode == 'user' && mediaDevice.label.includes('facing front')) {
+                        camDevices.push(mediaDevice);
+                    } else {
+                        camDevices.push(mediaDevice);
+                        console.log('pushed', mediaDevice);
+                    }   
+                    ctr++;
+                }
+            });
+            var select = document.getElementById("chooseCamSel");
+            select.style.display = "block";
+            var count = 0;
+            camDevices = camDevices.reverse();
+            camDevices.forEach(mediaDevice => {
+                const option = document.createElement('option');
+                option.value = mediaDevice.deviceId;
+                let label = `Camera ${count}`;
+                if (mediaDevice.label) {
+                    label = mediaDevice.label;
+                }
+                const textNode = document.createTextNode(label);
+                option.appendChild(textNode);
+                select.appendChild(option);
+                count++;
+            });
+            wTracker.WEBCAM_NAME = select.options[select.selectedIndex].innerHTML;
+        }
+
+        function SelectCam() {
+            var select = document.getElementById("chooseCamSel");
+            window.deviceId = select.value;
+            window.WEBCAM_SETTINGS.video['deviceId'] = deviceId;
+            wTracker.WEBCAM_NAME = select.options[select.selectedIndex].innerHTML;
+        }
+
+        async function FlipCam() {
+            arCamera.stopWebcam();
+            window.WEBCAM_SETTINGS.video.deviceId = '';
+
+            if(window.WEBCAM_SETTINGS.video.facingMode == 'user') {
+                 window.WEBCAM_SETTINGS.video.facingMode = 'environment';
+                arCamera.setFlipped(false);
+            } else {
+                window.WEBCAM_SETTINGS.video.facingMode = 'user';
+                arCamera.setFlipped(true);
+            }
+            window.webcamStream = await navigator.mediaDevices.getUserMedia(window.WEBCAM_SETTINGS);
+
+            const video = document.querySelector("#webcam-video");
+            video.srcObject = webcamStream;
+
+            await arCamera.startWebcam(video);
+        }
+
+        function StartMotionSensors() {
+            window.wTracker.startAngles()
+            .then(() => {
+                console.log("Motion sensors started");
+            })
+            .catch(error => {
+                console.error("Failed to start motion sensors - " + error);
+                ShowError("Failed to start the experience. " + error);
+            });
+        }
+
+        function StartGPS() {            
+            window.wTracker.startGPS()
+            .then((pos) => {
+                console.log("GPS started", pos);
+            })
+            .catch(error => {
+                console.error("Failed to start GPS - " + error);
+            });
+        }
+
+        function ShowError(error) {
+            document.getElementById("errorDiv").style.display = "flex";
+            document.getElementById("errorText").innerHTML = error;
+        }
+
+        function ShowScreenshot(dataUrl) {
+            document.getElementById("screenshotDiv").style.display = "flex";
+            document.getElementById("screenshotImg").src = dataUrl;
+            document.getElementById("screenshotImg").style.width = "80vw";
+            document.getElementById("screenshotImg").style.height = 80 / window.innerWidth * window.innerHeight + "vw";
+        }
+    </script>
+</body>
+</html>
