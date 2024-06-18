@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes'>
-    <title>Unity WebGL Player | carbonPortal2</title>
+    <title>Unity Carbon | St.pete Science Center</title>
     <link rel="stylesheet" href="TemplateData/style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         html{
             height: -webkit-fill-available;
@@ -52,10 +52,10 @@ p {
     <video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute"></video>
     <canvas id="video-canvas" style="width:100%; height:100%; object-fit:cover; position:absolute"></canvas>
     <div id="startARDiv" class="ctaDiv">
-        <select id="chooseCamSel" style="display: none;" onchange="SelectCam()"></select>
+        <div id="carbonlogo" style="display:inline-block;text-align: center;"><img src="/TemplateData/Carbon-logo.png" width="250px" height="222px" alt="Carbon" align="center"/></div>
         <p style="text-align: center; width:60vw">This augmented reality experience requires access to your device's camera and motion sensors</p>
         <button id="startARButton" style="display:none;background-color:#000000;padding:10px 20px 10px 20px;border:none;color:#ffffff;" onclick="StartAR()">ALLOW ACCESS</button>
-    </div>
+</div>
     <div id="screenshotDiv" style="display: none;" class="ctaDiv">
         <div style="position:relative; background-color:white; padding:10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);">
             <img id="screenshotImg" src="" alt="screenshot" style="width:80vw; height:80vh">
@@ -308,4 +308,3 @@ p {
     </script>
 </body>
 </html>
-
